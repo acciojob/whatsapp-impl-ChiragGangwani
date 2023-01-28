@@ -59,7 +59,7 @@ public class WhatsappController {
     }
 
     @PutMapping("/send-message")
-    public int sendMessage(@RequestBody Message message,@RequestBody User sender,@RequestBody Group group) throws Exception{
+    public int sendMessage(@RequestParam("mess") Message message,@RequestParam("user") User sender,@RequestParam("group") Group group) throws Exception{
         //Throw "Group does not exist" if the mentioned group does not exist
         //Throw "You are not allowed to send message" if the sender is not a member of the group
         //If the message is sent successfully, return the final number of messages in that group.
