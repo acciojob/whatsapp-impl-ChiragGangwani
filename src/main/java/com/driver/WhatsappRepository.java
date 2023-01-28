@@ -60,11 +60,20 @@ public class WhatsappRepository {
         List <User> temp=groupUserMap.get(group);
         for(User u:temp){
             if(u==sender) {
-                List<Message> ans = groupMessageMap.get(group);
-                ans.add(message);
-                groupMessageMap.put(group, ans);
-                senderMap.put(message, sender);
-                return groupMessageMap.get(group).size();
+                if(groupMessageMap.get(group).size()!=0) {
+                    List<Message> ans = groupMessageMap.get(group);
+                    ans.add(message);
+                    groupMessageMap.put(group, ans);
+                    senderMap.put(message, sender);
+                    return ans.size();
+                }
+                else{
+                    List<Message> ans = new ArrayList<>();
+                    ans.add(message);
+                    groupMessageMap.put(group, ans);
+                    senderMap.put(message, sender);
+                    return ans.size();
+                }
             }
         }
         return -2;
