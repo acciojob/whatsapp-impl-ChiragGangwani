@@ -55,21 +55,27 @@ public class WhatsappRepository {
     }
 
     public int sendMessage(Message message, User sender, Group group) {
-        if(!groupUserMap.containsKey(group))
+        if (!this.groupUserMap.containsKey(group)) {
             return -1;
-        boolean flag=false;
-        List <User> temp=groupUserMap.get(group);
-        for(int u=0;u<temp.size();u++){
-            if(temp.get(u)==sender)
-                flag=true;
+        } else {
+            List<User> temp = (List) this.groupUserMap.get(group);
+            Iterator var5 = temp.iterator();
+
+            User u;
+            do {
+                if (!var5.hasNext()) {
+                    return -2;
+                }
+
+                u = (User) var5.next();
+            } while (u != sender);
+
+            List<Message> ans = (List) this.groupMessageMap.get(group);
+            ans.add(message);
+            this.groupMessageMap.put(group, ans);
+            this.senderMap.put(message, sender);
+            return ((List) this.groupMessageMap.get(group)).size();
         }
-        if(!flag)
-            return -2;
-        List<Message> ans = groupMessageMap.get(group);
-                    ans.add(message);
-                    groupMessageMap.put(group,ans);
-                    senderMap.put(message, sender);
-                    return ans.size();
     }
 
     public String changeAdmin(User approver, User user, Group group) {
